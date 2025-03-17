@@ -1,7 +1,7 @@
 // Words to assemble
 const words = ["COOK", "DOOR", "HOME", "POWER"];
 let currentWordIndex = 0;
-const timerDuration = 120; // seconds
+const timerDuration = 60; // seconds
 let timerInterval;
 
 document.addEventListener("DOMContentLoaded", () => {
