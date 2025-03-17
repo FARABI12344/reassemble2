@@ -1,7 +1,7 @@
-// Words to assemble
+// Words to assemble – add new words here as needed.
 const words = ["COOK", "DOOR", "HOME", "POWER"];
 let currentWordIndex = 0;
-const timerDuration = 60; // seconds
+const timerDuration = 120; // 2 minutes in seconds
 let timerInterval;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -21,7 +21,7 @@ function loadWord() {
   const currentWord = words[currentWordIndex];
   const slotsContainer = document.getElementById("slots-container");
 
-  // Create droppable slots for each letter
+  // Create droppable slots for each letter of the current word.
   for (let i = 0; i < currentWord.length; i++) {
     let slot = document.createElement("div");
     slot.classList.add("droppable");
@@ -30,7 +30,7 @@ function loadWord() {
     slotsContainer.appendChild(slot);
   }
 
-  // Create draggable letters (shuffled)
+  // Create draggable letters (shuffled).
   const lettersContainer = document.getElementById("letters-container");
   let letters = currentWord.split("");
   letters = shuffleArray(letters);
@@ -39,7 +39,7 @@ function loadWord() {
     letterDiv.classList.add("draggable");
     letterDiv.setAttribute("draggable", "true");
     letterDiv.textContent = letter;
-    // Create a unique ID using index and letter value
+    // Create a unique ID using index and letter value.
     letterDiv.id = `letter-${index}-${letter}`;
     addDragListeners(letterDiv);
     lettersContainer.appendChild(letterDiv);
@@ -52,7 +52,7 @@ function clearContainers() {
   document.getElementById("letters-container").innerHTML = "";
 }
 
-// Drag and drop event listeners
+// Drag and drop event listeners.
 function addDragListeners(elem) {
   elem.addEventListener("dragstart", dragStart);
   elem.addEventListener("dragend", dragEnd);
@@ -70,7 +70,7 @@ function dragStart(e) {
   draggedElem = this;
   sourceContainer = this.parentElement;
   e.dataTransfer.setData("text/plain", this.id);
-  // Hide the element briefly for effect
+  // Briefly hide the element for a smooth drag effect.
   setTimeout(() => {
     this.style.visibility = "hidden";
   }, 0);
@@ -93,10 +93,10 @@ function drop(e) {
   let droppedId = e.dataTransfer.getData("text/plain");
   let dragged = document.getElementById(droppedId);
 
-  // If dropped into the same slot, do nothing.
+  // If dropped into the same container, do nothing.
   if (this === dragged.parentElement) return;
 
-  // If slot already has a letter, swap them.
+  // If the slot already has a letter, swap them.
   if (this.childElementCount > 0) {
     let existing = this.firstElementChild;
     if (sourceContainer) {
@@ -116,14 +116,11 @@ function updateOrder() {
     }
   });
   const currentWord = words[currentWordIndex];
-  if (assembled === currentWord) {
-    document.getElementById("next").disabled = false;
-  } else {
-    document.getElementById("next").disabled = true;
-  }
+  // Enable NEXT if the assembled word is correct.
+  document.getElementById("next").disabled = (assembled !== currentWord);
 }
 
-// Redo: return all letters to the pool
+// REDO: Return all letters back to the letters pool.
 function redo() {
   const lettersContainer = document.getElementById("letters-container");
   const slots = document.querySelectorAll(".droppable");
@@ -135,7 +132,7 @@ function redo() {
   document.getElementById("next").disabled = true;
 }
 
-// Skip current word (or go to next)
+// SKIP: Proceed to the next word.
 function skipWord() {
   nextWord();
 }
@@ -144,13 +141,13 @@ function nextWord() {
   currentWordIndex++;
   if (currentWordIndex >= words.length) {
     alert("All words completed!");
-    currentWordIndex = 0; // restart or finish the game as desired
+    currentWordIndex = 0; // Restart or end the game as desired.
   }
   loadWord();
   resetTimer();
 }
 
-// Fisher-Yates shuffle
+// Fisher–Yates shuffle.
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -159,7 +156,7 @@ function shuffleArray(array) {
   return array;
 }
 
-// Timer functions
+// Timer functions.
 function startTimer() {
   let timeLeft = timerDuration;
   updateTimerDisplay(timeLeft);
@@ -178,12 +175,12 @@ function updateTimerDisplay(time) {
   const timerDisplay = document.getElementById("timer");
   let minutes = Math.floor(time / 60);
   let seconds = time % 60;
-  // Show only minutes when seconds is 0 or at the very start
-  if (time === timerDuration || seconds === 0) {
-    timerDisplay.textContent = `${minutes}M`;
-  } else {
-    timerDisplay.textContent = `${minutes}M ${seconds}s`;
-  }
+  // Format seconds with a leading zero if needed.
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+  // Display "M" only if seconds are 0 at the very start; otherwise, show minutes and seconds.
+  timerDisplay.textContent = (time === timerDuration || seconds === "00") 
+    ? `${minutes}M` 
+    : `${minutes}M ${seconds}s`;
 }
 
 function resetTimer() {
