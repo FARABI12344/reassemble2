@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found</title>
+    <style>
+        @font-face {
+            font-family: Panton;
+            src: url('assets/Panton.ttf') format('truetype');
+        }
+        body {
+            font-family: Panton, sans-serif;
+            text-align: center;
+            background-color: #111;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            color: red;
+            font-size: 140px;
+            font-weight: bold;
+            margin: 0;
+        }
+        p {
+            font-size: 50px;
+            font-weight: bold;
+            margin: 5px 0 20px 0;
+        }
+        .button {
+            background-color: black;
+            color: white;
+            padding: 25px 80px;
+            font-size: 40px;
+            font-weight: bold;
+            border: 7px solid grey;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+            transition: 0.3s;
+            text-align: center;
+        }
+        .button:hover {
+            box-shadow: 0px 0px 50px #a855f7;
+            border-color: #a855f7;
+        }
+        .link {
+            color: white;
+            font-size: 35px;
+            margin-top: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .link:hover {
+            color: #ff80bf;
+            text-shadow: 0px 0px 30px #ff80bf;
+        }
+    </style>
+</head>
+<body>
+    <h1>404 ERROR</h1>
+    <p>Looks like you are lost.</p>
+    <a href="/" class="button" onclick="notify('Redirecting to Home...')">GO TO HOME</a>
+    <p><a href="https://farabi.me" class="link" onclick="notify('Redirecting to farabi.me...')">Instead Go to <span style="text-decoration: underline;">farabi.me</span></a></p>
+    
+    <script>
+        function notify(message) {
+            alert(message);
+        }
+    </script>
+</body>
+</html>
