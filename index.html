@@ -1,36 +1,29 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reassemble Words</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reassemble Words</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
-    <div class="game-container">
-        <h1>REASSEMBLE WORDS</h1>
-        <h2 id="timer">TIME: 2M</h2>
+  <div class="game-container">
+    <header>
+      <h1>REASSEMBLE WORDS</h1>
+      <h2 id="timer">2M</h2>
+    </header>
 
-        <div class="word-box">
-            <div class="droppable" id="slot1"></div>
-            <div class="droppable" id="slot2"></div>
-            <div class="droppable" id="slot3"></div>
-            <div class="droppable" id="slot4"></div>
-        </div>
+    <main>
+      <div id="slots-container" class="word-box"></div>
+      <div id="letters-container" class="letters"></div>
+    </main>
 
-        <div class="letters">
-            <div class="draggable" draggable="true" id="C">C</div>
-            <div class="draggable" draggable="true" id="O1">O</div>
-            <div class="draggable" draggable="true" id="K">K</div>
-            <div class="draggable" draggable="true" id="O2">O</div>
-        </div>
-
-        <div class="buttons">
-            <button id="skip">SKIP</button>
-            <button id="next" disabled>NEXT</button>
-        </div>
-    </div>
+    <footer class="buttons">
+      <button id="redo">Redo</button>
+      <button id="skip">Skip</button>
+      <button id="next" disabled>Next</button>
+    </footer>
+  </div>
 </body>
 </html>
