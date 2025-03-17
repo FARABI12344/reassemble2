@@ -1,5 +1,5 @@
 // Words to assemble – add new words here as needed.
-const words = ["COOK", "DOOR", "HOME", "POWER"];
+const words = ["COOK", "DOOR", "HOME", "POWER", "FIRE", "DUST", "GLOW", "FORK", "STAR", "TREE", "WIND", "JUMP", "FISH"];
 let currentWordIndex = 0;
 const timerDuration = 120; // 2 minutes in seconds
 let timerInterval;
