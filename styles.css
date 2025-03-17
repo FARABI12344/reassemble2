@@ -45,14 +45,13 @@ header h2 {
 }
 
 .droppable {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border: 3px solid white;
   margin: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
   transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -69,8 +68,8 @@ header h2 {
 }
 
 .draggable {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   background: white;
   color: #111;
   font-size: 2.5rem;
@@ -81,6 +80,15 @@ header h2 {
   cursor: grab;
   border-radius: 10px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* When a draggable is dropped inside a droppable, let it fill the container */
+.droppable > .draggable {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+  font-size: 3rem;
 }
 
 .draggable:active {
@@ -94,24 +102,39 @@ header h2 {
 }
 
 button {
-  background: #ff4d4d;
+  background: #333;
   color: white;
+  font-family: 'Panton', sans-serif;
   font-size: 1.2rem;
   padding: 12px 24px;
-  border: none;
+  border: 2px solid transparent;
   border-radius: 5px;
   cursor: pointer;
   margin: 0 10px;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
 }
 
-button:hover {
-  background: #ff1a1a;
+/* Button border colors */
+#redo {
+  border-color: blue;
 }
 
-button:disabled {
-  background: gray;
-  cursor: not-allowed;
+#skip {
+  border-color: red;
+}
+
+#next {
+  border-color: grey;
+}
+
+/* NEXT button: when enabled, green border with glow */
+#next:not(:disabled) {
+  border-color: green;
+  box-shadow: 0 0 10px green;
+}
+
+button:hover:not(:disabled) {
+  background: #555;
 }
 
 /* Responsive Design */
@@ -123,12 +146,17 @@ button:disabled {
     font-size: 1.5rem;
   }
   .droppable, .draggable {
-    width: 70px;
-    height: 70px;
-    font-size: 1.8rem;
-  }
-  .draggable {
+    width: 80px;
+    height: 80px;
     font-size: 2rem;
+  }
+  .droppable > .draggable {
+    font-size: 2.5rem;
+  }
+  button {
+    font-size: 1rem;
+    padding: 10px 20px;
+    margin: 5px;
   }
 }
 
@@ -144,9 +172,12 @@ button:disabled {
     height: 60px;
     font-size: 1.5rem;
   }
+  .droppable > .draggable {
+    font-size: 2rem;
+  }
   button {
-    font-size: 1rem;
-    padding: 10px 20px;
+    font-size: 0.9rem;
+    padding: 8px 16px;
     margin: 5px;
   }
 }
