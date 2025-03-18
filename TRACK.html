@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Tracker</title>
+    <script>
+        // Function to get today's date in YYYY-MM-DD format
+        function getCurrentDate() {
+            const today = new Date();
+            return today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+        }
+
+        // Store the current session's start time
+        const sessionStartTime = new Date().getTime();
+
+        // Function to save session data in localStorage
+        function saveSessionData(sessionDuration) {
+            const currentDate = getCurrentDate();
+
+            // Retrieve current session data or initialize it if not available
+            let sessionData = JSON.parse(localStorage.getItem('sessionData')) || {};
+
+            // If the current date entry exists, update it, else create a new entry
+            if (!sessionData[currentDate]) {
+                sessionData[currentDate] = {
+                    users: 0,
+                    totalTime: 0,
+                    averageTime: 0
+                };
+            }
+
+            // Update session data
+            sessionData[currentDate].users += 1; // Increment user count
+            sessionData[currentDate].totalTime += sessionDuration; // Add the session duration
+
+            // Calculate average session time
+            sessionData[currentDate].averageTime = sessionData[currentDate].totalTime / sessionData[currentDate].users;
+
+            // Save updated session data to localStorage
+            localStorage.setItem('sessionData', JSON.stringify(sessionData));
+        }
+
+        // Track user data when they leave the website
+        window.addEventListener('beforeunload', function () {
+            const sessionEndTime = new Date().getTime();
+            const sessionDuration = (sessionEndTime - sessionStartTime) / 1000; // Time in seconds
+
+            saveSessionData(sessionDuration);
+        });
+
+        // Function to display current session data (for testing purpose)
+        function displaySessionData() {
+            const sessionData = JSON.parse(localStorage.getItem('sessionData')) || {};
+            console.log("Session Data:", sessionData);
+        }
+
+        // Display the session data every time the page loads (optional for debugging)
+        displaySessionData();
+
+    </script>
+</head>
+<body>
+    <!-- Empty body, only tracking logic -->
+</body>
+</html>
