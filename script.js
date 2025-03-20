@@ -52,132 +52,99 @@ function clearContainers() {
   document.getElementById("letters-container").innerHTML = "";
 }
 
-// Drag and drop event listeners.
-function addDragListeners(elem) {
-  elem.addEventListener("dragstart", dragStart);
-  elem.addEventListener("dragend", dragEnd);
-}
-
-function addDropListeners(slot) {
-  slot.addEventListener("dragover", dragOver);
-  slot.addEventListener("drop", drop);
-}
-
-let draggedElem = null;
-let sourceContainer = null;
-
-function dragStart(e) {
-  draggedElem = this;
-  sourceContainer = this.parentElement;
-  e.dataTransfer.setData("text/plain", this.id);
-  // Briefly hide the element for a smooth drag effect.
-  setTimeout(() => {
-    this.style.visibility = "hidden";
-  }, 0);
-}
-
-function dragEnd() {
-  this.style.visibility = "visible";
-  draggedElem = null;
-  sourceContainer = null;
-}
-
-function dragOver(e) {
-  e.preventDefault();
-  this.classList.add("hovered");
-}
-
-function drop(e) {
-  e.preventDefault();
-  this.classList.remove("hovered");
-  let droppedId = e.dataTransfer.getData("text/plain");
-  let dragged = document.getElementById(droppedId);
-
-  // If dropped into the same container, do nothing.
-  if (this === dragged.parentElement) return;
-
-  // If the slot already has a letter, swap them.
-  if (this.childElementCount > 0) {
-    let existing = this.firstElementChild;
-    if (sourceContainer) {
-      sourceContainer.appendChild(existing);
-    }
-  }
-  this.appendChild(dragged);
-  updateOrder();
-}
-
-function updateOrder() {
-  const slots = document.querySelectorAll(".droppable");
-  let assembled = "";
-  slots.forEach(slot => {
-    if (slot.firstChild) {
-      assembled += slot.firstChild.textContent;
-    }
-  });
-  const currentWord = words[currentWordIndex];
-  // Enable NEXT if the assembled word is correct.
-  document.getElementById("next").disabled = (assembled !== currentWord);
-}
-
-// REDO: Return all letters back to the letters pool.
-function redo() {
-  const lettersContainer = document.getElementById("letters-container");
-  const slots = document.querySelectorAll(".droppable");
-  slots.forEach(slot => {
-    if (slot.firstChild) {
-      lettersContainer.appendChild(slot.firstChild);
-    }
-  });
-  document.getElementById("next").disabled = true;
-}
-
-// SKIP: Proceed to the next word.
-function skipWord() {
-  currentWordIndex = (currentWordIndex + 1) % words.length;
-  loadWord();
-  startTimer();
-}
-
-// NEXT: Moves to the next word.
-function nextWord() {
-  currentWordIndex = (currentWordIndex + 1) % words.length;
-  loadWord();
-  startTimer();
-}
-
 function startTimer() {
-  let remainingTime = timerDuration;
+  let timeLeft = timerDuration;
   const timerElement = document.getElementById("timer");
-  timerElement.textContent = formatTime(remainingTime);
-
-  if (timerInterval) {
-    clearInterval(timerInterval);
-  }
 
   timerInterval = setInterval(() => {
-    remainingTime--;
-    timerElement.textContent = formatTime(remainingTime);
-
-    if (remainingTime === 0) {
+    timeLeft--;
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timerElement.textContent = `${minutes}M ${seconds < 10 ? '0' : ''}${seconds}`;
+    
+    if (timeLeft <= 0) {
       clearInterval(timerInterval);
-      alert("Time's up! Next word.");
-      nextWord();
+      alert("Time's up!");
     }
   }, 1000);
 }
 
-function formatTime(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return `${minutes}M ${remainingSeconds}s`;
+function shuffleArray(array) {
+  return array.sort(() => Math.random() - 0.5);
 }
 
-// Shuffle array function.
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+function addDragListeners(element) {
+  element.addEventListener("dragstart", dragStart);
+  element.addEventListener("dragend", dragEnd);
+}
+
+function addDropListeners(element) {
+  element.addEventListener("dragover", dragOver);
+  element.addEventListener("dragenter", dragEnter);
+  element.addEventListener("dragleave", dragLeave);
+  element.addEventListener("drop", drop);
+}
+
+function dragStart(event) {
+  event.dataTransfer.setData("text", event.target.id);
+  event.target.classList.add("dragging");
+}
+
+function dragEnd(event) {
+  event.target.classList.remove("dragging");
+}
+
+function dragOver(event) {
+  event.preventDefault();
+}
+
+function dragEnter(event) {
+  event.preventDefault();
+  event.target.classList.add("hovered");
+}
+
+function dragLeave(event) {
+  event.target.classList.remove("hovered");
+}
+
+function drop(event) {
+  event.preventDefault();
+  const draggedElementId = event.dataTransfer.getData("text");
+  const draggedElement = document.getElementById(draggedElementId);
+
+  if (event.target.classList.contains("droppable") && !event.target.contains(draggedElement)) {
+    event.target.classList.remove("hovered");
+    event.target.appendChild(draggedElement);
+    checkWordCompletion();
   }
-  return array;
+}
+
+function checkWordCompletion() {
+  const slots = document.querySelectorAll(".droppable");
+  const word = words[currentWordIndex];
+  let completed = true;
+  
+  slots.forEach((slot, index) => {
+    if (slot.firstChild && slot.firstChild.textContent !== word[index]) {
+      completed = false;
+    }
+  });
+
+  if (completed) {
+    document.getElementById("next").disabled = false;
+  }
+}
+
+function redo() {
+  loadWord();
+}
+
+function skipWord() {
+  currentWordIndex = (currentWordIndex + 1) % words.length;
+  loadWord();
+}
+
+function nextWord() {
+  currentWordIndex = (currentWordIndex + 1) % words.length;
+  loadWord();
 }
