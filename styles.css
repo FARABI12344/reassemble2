@@ -14,38 +14,9 @@ body {
   color: white;
   font-family: 'Panton', sans-serif;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
   min-height: 100vh;
-}
-
-.navbar {
-  width: 100%;
-  background: #222;
-  display: flex;
-  justify-content: space-between;
-  padding: 15px 20px;
-  align-items: center;
-}
-
-.navbar h1 {
-  font-size: 1.8rem;
-}
-
-.navbar ul {
-  list-style: none;
-  display: flex;
-  gap: 15px;
-}
-
-.navbar ul li {
-  display: inline;
-}
-
-.navbar ul li a {
-  color: white;
-  text-decoration: none;
-  font-size: 1rem;
 }
 
 .game-container {
@@ -108,25 +79,105 @@ header h2 {
   margin: 10px;
   cursor: grab;
   border-radius: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.footer {
-  margin-top: 20px;
-  text-align: center;
-  padding: 15px;
-  background: #222;
+/* When a draggable is dropped inside a droppable, let it fill the container */
+.droppable > .draggable {
   width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 0;
+  font-size: 3rem;
 }
 
-.footer p, .footer a {
+.draggable:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #ff69b4;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+button {
+  background: #333;
   color: white;
-  font-size: 1rem;
-  text-decoration: none;
+  font-family: 'Panton', sans-serif;
+  font-size: 1.2rem;
+  padding: 12px 24px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 10px;
+  transition: background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Button border colors */
+#redo {
+  border-color: blue;
+}
+
+#skip {
+  border-color: red;
+}
+
+#next {
+  border-color: grey;
+}
+
+/* NEXT button: when enabled, green border with glow */
+#next:not(:disabled) {
+  border-color: green;
+  box-shadow: 0 0 10px green;
+}
+
+button:hover:not(:disabled) {
+  background: #555;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+  header h2 {
+    font-size: 1.5rem;
+  }
   .droppable, .draggable {
     width: 80px;
     height: 80px;
+    font-size: 2rem;
+  }
+  .droppable > .draggable {
+    font-size: 2.5rem;
+  }
+  button {
+    font-size: 1rem;
+    padding: 10px 20px;
+    margin: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.8rem;
+  }
+  header h2 {
+    font-size: 1.2rem;
+  }
+  .droppable, .draggable {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+  .droppable > .draggable {
+    font-size: 2rem;
+  }
+  button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    margin: 5px;
   }
 }
