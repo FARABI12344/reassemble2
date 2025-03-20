@@ -1,51 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reassemble Words</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="script.js"></script>
-
-  <!-- Open Graph Meta Tags (For Discord Embed) -->
-  <meta property="og:title" content="Re Assemble">
-  <meta property="og:description" content="Fix Assembled Words. Can you? 👀">
-  <meta property="og:url" content="https://re-assemble.net/">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reassemble Words - Farabi Games</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <nav class="navbar">
-    <h1>FARABI GAMES</h1>
-    <ul>
-      <li><a href="https://farabi.me/terms">Terms of Service</a></li>
-      <li><a href="https://farabi.me/privacy">Privacy Policy</a></li>
-      <li><a href="https://farabi.me">More Games</a></li>
-    </ul>
-  </nav>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a href="#">FARABI.me</a>
+        </div>
+        <ul>
+            <li><a href="https://farabi.me/terms">Terms of Services</a></li>
+            <li><a href="https://farabi.me/privacy">Privacy Policy</a></li>
+            <li><a href="https://farabi.me/">More Games</a></li>
+        </ul>
+    </nav>
 
-  <div class="game-container">
-    <header>
-      <h1>REASSEMBLE WORDS</h1>
-      <h2 id="timer">2M</h2>
-    </header>
+    <!-- Word Puzzle Game Area -->
+    <div class="game-container">
+        <div class="word-boxes" id="word-boxes">
+            <div class="word" id="word1" draggable="true" ondragstart="startDrag(event)">Word 1</div>
+            <div class="word" id="word2" draggable="true" ondragstart="startDrag(event)">Word 2</div>
+            <div class="word" id="word3" draggable="true" ondragstart="startDrag(event)">Word 3</div>
+        </div>
+        <div class="drop-area" id="drop-area" ondragover="allowDrop(event)" ondrop="drop(event)">
+            <p>Drop the words here to reassemble!</p>
+        </div>
+    </div>
 
-    <main>
-      <div id="slots-container" class="word-box"></div>
-      <div id="letters-container" class="letters"></div>
-    </main>
-
-    <footer class="buttons">
-      <button id="redo">REFRESH</button>
-      <button id="skip">SKIP</button>
-      <button id="next" disabled>NEXT</button>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>FARABI.me</p>
+            <p><a href="mailto:support@farabi.me">support@farabi.me</a></p>
+            <ul>
+                <li><a href="https://farabi.me/terms">Terms of Services</a></li>
+                <li><a href="https://farabi.me/privacy">Privacy Policy</a></li>
+            </ul>
+        </div>
     </footer>
-  </div>
 
-  <footer class="footer">
-    <p>FARABI GAMES</p>
-    <p>support@farabi.me</p>
-    <p><a href="https://farabi.me/terms">Terms of Service</a> | <a href="https://farabi.me/privacy">Privacy Policy</a></p>
-  </footer>
+    <script src="script.js"></script>
 </body>
 </html>
